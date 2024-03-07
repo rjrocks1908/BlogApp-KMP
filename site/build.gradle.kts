@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kobweb.application)
+    alias(libs.plugins.serialization.plugin)
     // alias(libs.plugins.kobwebx.markdown)
 }
 
@@ -13,6 +14,12 @@ version = "1.0-SNAPSHOT"
 
 kobweb {
     app {
+        server {
+            remoteDebugging {
+                enabled.set(true)
+                port.set(5005)
+            }
+        }
         index {
             description.set("Powered by Kobweb")
         }
@@ -29,6 +36,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
+            implementation(libs.kotlinx.serialization)
         }
 
         jsMain.dependencies {
@@ -36,11 +44,15 @@ kotlin {
             implementation(libs.kobweb.core)
             implementation(libs.kobweb.silk)
             implementation(libs.silk.icons.fa)
+            implementation(libs.kotlinx.serialization)
             // implementation(libs.kobwebx.markdown)
             
         }
         jvmMain.dependencies {
-            compileOnly(libs.kobweb.api) // Provided by Kobweb backend at runtime
+            implementation(libs.kobweb.api) // Provided by Kobweb backend at runtime
+            implementation(libs.mongodb.kotlin.driver)
+            implementation(libs.kotlinx.serialization)
+            implementation(libs.mongodb.bson)
         }
     }
 }
