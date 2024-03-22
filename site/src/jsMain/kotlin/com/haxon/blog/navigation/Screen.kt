@@ -5,4 +5,5 @@ sealed class Screen(val route: String) {
     data object AdminHome : Screen(route = "/admin/")
     data object AdminCreate : Screen(route = "/admin/create")
     data object AdminMyPosts : Screen(route = "/admin/myposts")
+    data object AdminSuccess : Screen(route = "/admin/success")
 }

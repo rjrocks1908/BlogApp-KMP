@@ -1,5 +1,6 @@
 package com.haxon.blog.data
 
+import com.haxon.blog.models.Post
 import com.haxon.blog.models.User
 import com.haxon.blog.util.Constants
 import com.mongodb.client.model.Filters.and
@@ -25,6 +26,7 @@ class MongoDB(
     private val client = MongoClient.create()
     private val database = client.getDatabase(Constants.DATABASE_NAME)
     private val userCollection = database.getCollection<User>("user")
+    private val postCollection = database.getCollection<Post>("post")
 
     override suspend fun checkUserExistence(user: User): User? {
         return try {
@@ -49,5 +51,9 @@ class MongoDB(
             ctx.logger.error(e.message.toString())
             false
         }
+    }
+
+    override suspend fun addPost(post: Post): Boolean {
+        return postCollection.insertOne(post).wasAcknowledged()
     }
 }

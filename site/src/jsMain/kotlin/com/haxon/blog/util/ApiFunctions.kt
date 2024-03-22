@@ -1,5 +1,6 @@
 package com.haxon.blog.util
 
+import com.haxon.blog.models.Post
 import com.haxon.blog.models.RandomJoke
 import com.haxon.blog.models.User
 import com.haxon.blog.models.UserWithoutPassword
@@ -73,5 +74,17 @@ suspend fun fetchRandomJoke(onComplete: (RandomJoke) -> Unit) {
             onComplete(RandomJoke(id = -1, joke = e.message.toString()))
             println(e.message)
         }
+    }
+}
+
+suspend fun addPost(post: Post): Boolean {
+    return try {
+        window.api.tryPost(
+            apiPath = "addpost",
+            body = Json.encodeToString(post).encodeToByteArray()
+        )?.decodeToString().toBoolean()
+    } catch (e: Exception) {
+        println(e.message.toString())
+        false
     }
 }

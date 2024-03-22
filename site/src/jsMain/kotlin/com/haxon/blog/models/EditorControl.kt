@@ -2,7 +2,7 @@ package com.haxon.blog.models
 
 import com.haxon.blog.util.Res
 
-enum class EditorKey(
+enum class EditorControl(
     val icon: String
 ) {
     Bold(icon = Res.Icon.BOLD),
